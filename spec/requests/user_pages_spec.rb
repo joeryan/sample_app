@@ -131,5 +131,17 @@ describe "User pages" do
 			specify { user.reload.email.should == new_email }
 		end
 	end
-
+	
+	describe "accessible attributes" do
+		let(:user_name) { "Any name" }
+		let(:email) { "any@example.com" }
+		let(:password) { "foobar" }
+		let(:password_cof) { "foobar" }
+	
+		it "should not allow access to admin" do
+			expect do
+				 User.new(user: :user_name, email: :email, password: :password, password_confirmation: :password_conf, admin: true ) 
+			end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+		end
+	end
 end
